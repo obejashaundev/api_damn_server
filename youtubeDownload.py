@@ -1,4 +1,3 @@
-from pytube import YouTube
 import youtube_dl
 
 class YoutubeDownload():

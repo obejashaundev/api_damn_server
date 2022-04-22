@@ -31,7 +31,7 @@ http://localhost:4000/search/The Weeknd
 ```
 
 Y el resultado es el siguiente:
-```
+```json
 {
 	"results": [
 		{
@@ -95,7 +95,7 @@ Mediante el método PUT en la ruta
 ```
 
 Envié un JSON con el titulo y el url del video que desee descargar. De ésta forma (sin los corchetes, claro):
-```
+```json
 {
     "title": "<titulo>",
     "link": "<url>"
@@ -105,7 +105,7 @@ Envié un JSON con el titulo y el url del video que desee descargar. De ésta fo
 **Y la API descargará en el servidor el archivo de audio y posteriormente transferirá los bytes del archivo hacia la respuesta al cliente en un JSON con la siguiente estructura**
 
 
-```
+```json
 {
     "file": {
         "<bytes>",

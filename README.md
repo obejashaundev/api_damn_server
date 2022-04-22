@@ -89,7 +89,7 @@ Y el resultado es el siguiente:
 
 Opcionalmente puede descargar el audio que desee...
 
-Mediante el método PUT en la ruta
+Mediante el método POST en la ruta
 ```
 /download
 ```

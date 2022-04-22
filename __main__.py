@@ -14,7 +14,7 @@ def search(something):
         "results": results
     })
 
-@app.route('/download', methods=['PUT'])
+@app.route('/download', methods=['POST'])
 def download():
     link = request.json["link"]
     title = request.json["title"]

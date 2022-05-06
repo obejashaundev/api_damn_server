@@ -1,12 +1,17 @@
+import os
+from dotenv import load_dotenv
+
 from copyreg import constructor
 from tokenize import String
 import requests
 import json
 
+load_dotenv()
+
 class YoutubeAPISearch():
     
 
-    def __init__(self, APIKey) -> None:
+    def __init__(self, APIKey=os.getenv('APIKey')) -> None:
         self.APIKey = APIKey
 
     def searchSomething(self, text):

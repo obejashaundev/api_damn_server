@@ -4,7 +4,7 @@ API DAMN Server tiene como utilidad la búsqueda y opcionalmente la descarga de 
 
 ## Dependencias
 ```
-pip install flask youtube_dl
+pip install flask youtube_dl bcrypt dotenv
 ```
 
 ## Uso

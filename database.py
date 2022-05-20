@@ -15,8 +15,8 @@ class ConnectToDatabase():
     
     def addNewUser(self,email,password):
         with self.__connection.cursor() as cursor:
-            query = "INSERT INTO credentials (email,access_token) VALUES(%s,%s);"
-            cursor.execute(query,(email,password))
+            query = "INSERT INTO credentials(email,access_token) VALUES(%s,%s);"
+            cursor.execute(query,[email,password])
         self.__connection.commit()
             #self.__connection.close()
     

@@ -1,2 +1,5 @@
 *.webm
+*.mp3
 .env
+*.pyc
+__pycache__

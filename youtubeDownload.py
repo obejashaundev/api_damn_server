@@ -1,32 +1,43 @@
+import json
+from matplotlib.font_manager import json_dump
 import youtube_dl
 
 class YoutubeDownload():
 
-    def __my_hook(d):
-        if d['status'] == 'finished':
-            print('Done downloading, now converting ...')
-
-    def downloadMp3(self, link, title):
+    def downloadMp3(self, link, title, device):
         
-        #For youtube_dl
-        ydl_opts = {
-            'format': 'bestaudio/best',
-            'outtmpl': title+".%(ext)s",        
-            'noplaylist' : True,
-        }
-
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([link])
-            file = open(title+".webm", 'rb')
-            lines = ''
-            for line in file.readlines():
-                lines += str(line)
-            file.close()
-            file = {
-                "title": title,
-                "bytes": lines
+        if "app" in device:
+            #For youtube_dl
+            ydl_opts = {
+                'format': 'bestaudio',
+                'keepvideo':False,
+                'outtmpl': f"music/{title}.mp3",
+                'noplaylist' : True,
             }
-            return file
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([link])
+                file = open(title+".mp3", 'rb')
+                lines = list()
+                for line in file.readlines():
+                    lines += list(line)
+                file.close()
+                file = {
+                    "title": title,
+                    "bytes": lines
+                }
+                return file
+        elif "pwa" in device:
+            #For youtube_dl
+            ydl_opts = {
+                'format': 'bestaudio',
+                'keepvideo':False,
+                'outtmpl': f"music/{title}.%(ext)s",
+                'noplaylist' : True,
+            }
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([link])
+                file = title+".webm"
+                return file
         
         # For pytube3
         #yt = YouTube(link)

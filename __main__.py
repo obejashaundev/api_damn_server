@@ -1,20 +1,24 @@
 
-import re
+#from crypt import methods
+from flask import Flask, jsonify, request, send_file, send_from_directory, abort
+from flask_cors import CORS
 
-from crypt import methods
-from flask import Flask, jsonify, request
 from api import YoutubeAPISearch
 from youtubeDownload import YoutubeDownload
 from DataEncrypt import DataEncrypt
 from DataDecrypt import DataDecrypt
 from database import ConnectToDatabase
 
-yas = YoutubeAPISearch(APIKey='AIzaSyB5lvaMBDh6Js8twjSDa8hKLf-MQx_AkuI')
+yas = YoutubeAPISearch()
 yd = YoutubeDownload()
 app = Flask(__name__)
+CORS(app)
 db = ConnectToDatabase()
 encryptor = DataEncrypt()
 decryptor = DataDecrypt()
+
+
+app.config["CLIENT_MUSIC"] = "./music"
 
 @app.route('/signUp', methods=['POST'])
 def signUp():
@@ -40,6 +44,7 @@ def signUp():
         # TO DO encrypt password and email
         encryptor.setStringToEncrypt(password)
         password_encrypted = encryptor.encrypt()
+        print(f'password encrypted => {password_encrypted}')
         db.addNewUser(email,password_encrypted)
         ok = True
     return jsonify({
@@ -73,20 +78,27 @@ def signIn():
 @app.route('/search/<something>')
 def search(something):
     results = yas.searchSomething(text=something)
-    return jsonify({
-        "results": results
-    })
+    r = jsonify(results)
+    r.headers.add('Access-Control-Allow-Origin', '*')
+    return r
 
-@app.route('/download', methods=['POST'])
-def download():
+@app.route('/downloadApp', methods=['POST'])
+def downloadApp():
     link = request.json["link"]
     title = request.json["title"]
-    print("title:   "+title+"   =>  "+link)
-    file = yd.downloadMp3(link, title)
-    return jsonify({
-        "message": "File Transfer",
-        "file": file
-    })
+    file = yd.downloadMp3(link, title, 'app')
+    return jsonify(file)
+
+@app.route('/downloadPwa', methods=['GET'])
+def downloadPwa():
+    args = request.args
+    titulo = args.get('titulo')
+    url = args.get('url')
+    file = yd.downloadMp3(url, titulo, 'pwa')
+    try:
+        return send_from_directory(app.config['CLIENT_MUSIC'], file, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
 
 if __name__ == '__main__':
-    app.run(port=4000)
+    app.run(host='0.0.0.0',port=4000)

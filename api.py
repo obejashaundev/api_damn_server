@@ -32,7 +32,7 @@ class YoutubeAPISearch():
             videoId = videoItem['id']['videoId']
             video = {
                 "title": videoItem['snippet']['title'],
-                "url": "https://www.youtube.com/watch?v="+videoId,
+                "url": 'https://www.youtube.com/watch?v='+videoId,
                 "thumbnailURL": videoItem['snippet']['thumbnails']['high']['url']
             }
             resultVideos.append(video)

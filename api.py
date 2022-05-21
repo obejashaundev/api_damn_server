@@ -21,7 +21,6 @@ class YoutubeAPISearch():
         return self.__formatOutputSearch(jsonResult)
 
     def __requestYoutube(self,something):
-        #self.rawJSON = requests.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyB5lvaMBDh6Js8twjSDa8hKLf-MQx_AkuI&type=video&q='+self.searchText+'&maxResults=10')
         rawJSON = requests.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key='+self.APIKey+'&type=video&q='+something+'&maxResults=10')
         return rawJSON.text
     
